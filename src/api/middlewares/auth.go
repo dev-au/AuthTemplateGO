@@ -18,6 +18,7 @@ func AuthMiddleware(c *gin.Context) {
 	jwtData, err := utils.VerifyJWT(jwtKey[1])
 	if err != nil {
 		c.JSON(401, gin.H{"error": err.Error()})
+		c.Abort()
 		return
 	}
 
@@ -26,6 +27,7 @@ func AuthMiddleware(c *gin.Context) {
 	var user models.User
 	if err = container.DB.Preload("Role").Where("id = ?", jwtData).First(&user).Error; err != nil {
 		c.JSON(401, gin.H{"error": "Unauthorized"})
+		c.Abort()
 		return
 	}
 	c.Set("user", user)

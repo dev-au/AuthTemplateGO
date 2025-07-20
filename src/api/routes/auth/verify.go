@@ -20,7 +20,6 @@ func Verify(c *gin.Context) {
 	fmt.Println(data)
 
 	name := data["name"].(string)
-	email := data["email"].(string)
 	password := data["password"].(string)
 	roleFloat, ok := data["role"].(float64)
 	if !ok {
@@ -31,9 +30,9 @@ func Verify(c *gin.Context) {
 
 	verifyKey := data["verifyKey"].(string)
 
-	val := container.Cache.Get("user" + email)
-	verifyVal, ok := val.(string)
-	if !ok || verifyVal != verifyKey {
+	email := container.Cache.Get("user" + verifyKey)
+
+	if email == nil {
 		c.JSON(400, gin.H{"error": "Invalid or expired verification key"})
 		return
 	}
@@ -47,7 +46,7 @@ func Verify(c *gin.Context) {
 
 	user := models.User{
 		Name:     name,
-		Email:    email,
+		Email:    email.(string),
 		Password: password,
 		IsActive: true,
 		RoleID:   &roleDb.ID,

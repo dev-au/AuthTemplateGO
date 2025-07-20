@@ -37,9 +37,8 @@ func SetupRedis() {
 }
 
 func (s *Cache) Set(key string, value interface{}, expiration time.Duration) {
-	var strVal string
 
-	err := s.Client.Set(s.Ctx, key, strVal, expiration).Err()
+	err := s.Client.Set(s.Ctx, key, value, expiration).Err()
 	if err != nil {
 		panic(fmt.Sprintf("failed to set key: %s", err))
 	}

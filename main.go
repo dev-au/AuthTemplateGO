@@ -4,7 +4,10 @@ import (
 	"AuthTemplate/src"
 	"AuthTemplate/src/api"
 	"AuthTemplate/src/resources"
+	"github.com/gin-gonic/gin"
+	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -17,7 +20,17 @@ func main() {
 		resources.InitCommands(os.Args[1])
 		return
 	}
+	gin.SetMode(src.Config.ApplicationMode)
+	ginEngine := api.GinEngine()
 
-	webEngine := api.WebEngine()
-	_ = webEngine.Run(":8000")
+	s := &http.Server{
+		Addr:           ":" + src.Config.Port,
+		Handler:        ginEngine,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	_ = s.ListenAndServe()
+
 }

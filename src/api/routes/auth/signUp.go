@@ -38,12 +38,11 @@ func SignUp(c *gin.Context) {
 
 	verifyKey := uuid.New().String()
 
-	container.Cache.Set("user"+req.Email, verifyKey, time.Minute*5)
+	container.Cache.Set("user"+verifyKey, req.Email, time.Minute*5)
 	go utils.SendVerifyLink(
 		req.Email,
 		map[string]interface{}{
 			"name":      req.Name,
-			"email":     req.Email,
 			"role":      req.Role,
 			"password":  req.Password,
 			"verifyKey": verifyKey,

@@ -1,11 +1,11 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
+import "time"
 
 type Role struct {
-	Name  string `gorm:"type:varchar(255);not null" json:"name"`
-	Users []User `gorm:"foreignKey:RoleID" json:"users"`
-	gorm.Model
+	ID        uint      `gorm:"primarykey" json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Name      string    `gorm:"type:varchar(255);not null" json:"name"`
+	Users     []User    `gorm:"foreignKey:RoleID" json:"users"`
 }

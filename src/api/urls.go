@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func WebEngine() *gin.Engine {
+func GinEngine() *gin.Engine {
 	router := gin.Default()
 
 	authControl := router.Group("/user")
@@ -22,6 +22,9 @@ func WebEngine() *gin.Engine {
 	roleControl.Use(middlewares.AuthMiddleware, middlewares.AdminVerify)
 	{
 		roleControl.POST("", roles.CreateRole)
+		roleControl.GET("", roles.GetRoles)
+		roleControl.DELETE("/:id", roles.DeleteRole)
+		roleControl.PATCH("/:id", roles.UpdateRole)
 	}
 
 	return router

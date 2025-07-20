@@ -14,7 +14,7 @@ type User struct {
 	IsActive  bool      `gorm:"type:boolean;not null;default:false" json:"is_active"`
 	Password  string    `gorm:"type:varchar(255);not null" json:"password"`
 	RoleID    *uint     `gorm:"null" json:"role_id"`
-	Role      *Role     `gorm:"foreignKey:RoleID" json:"role"`
+	Role      *Role     `gorm:"foreignKey:RoleID;constraint:OnDelete:RESTRICT" json:"role"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
