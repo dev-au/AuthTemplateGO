@@ -173,11 +173,20 @@ http{s}://{APPLICATION_URL}/
 ```shell
 go run main.go createsuperuser
 ```
+or inside docker (compiled application)
+```shell
+./main createsuperuser
+```
+
 
 ### Generate Encryption Key
 
 ```shell
 go run main.go randomtoken
+```
+or inside docker (compiled application)
+```shell
+./main randomtoken
 ```
 
 ### Run Project
