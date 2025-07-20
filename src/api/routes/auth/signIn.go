@@ -5,6 +5,7 @@ import (
 	"AuthTemplate/src/resources"
 	"AuthTemplate/src/utils"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type SignInRequest struct {
@@ -24,6 +25,12 @@ func SignIn(c *gin.Context) {
 
 	var user models.User
 	if err := container.DB.Where("email = ?", req.Email).First(&user).Error; err != nil {
+		c.JSON(400, gin.H{"error": "User does not exist"})
+		return
+	}
+
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+	if err != nil {
 		c.JSON(400, gin.H{"error": "User does not exist"})
 		return
 	}
