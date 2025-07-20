@@ -52,9 +52,11 @@ func Verify(c *gin.Context) {
 		RoleID:   &roleDb.ID,
 	}
 
-	container.DB.Create(&user)
+	if err = container.DB.Create(&user).Error; err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
 
 	jwtKey, _ := utils.GenerateJWT(user.ID)
 	c.JSON(200, gin.H{"token": jwtKey})
-
 }

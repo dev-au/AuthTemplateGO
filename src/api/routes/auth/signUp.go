@@ -31,9 +31,9 @@ func SignUp(c *gin.Context) {
 		c.JSON(400, gin.H{"error": "Role does not exist"})
 		return
 	}
-	existCache := container.Cache.Exists("user:" + req.Email)
-	if existCache {
-		c.JSON(400, gin.H{"error": "User must verify email"})
+
+	if err := container.DB.Where("email = ?", req.Email).First(&models.User{}).Error; err == nil {
+		c.JSON(400, gin.H{"error": "User already exist"})
 		return
 	}
 
