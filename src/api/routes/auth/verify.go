@@ -56,6 +56,7 @@ func Verify(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
+	container.Cache.Delete("user" + verifyKey)
 
 	jwtKey, _ := utils.GenerateJWT(user.ID)
 	c.JSON(200, gin.H{"token": jwtKey})
