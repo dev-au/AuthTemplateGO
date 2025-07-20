@@ -31,6 +31,7 @@ http{s}://{APPLICATION_URL}/
   "success": "Verification link sent"
 }
 ```
+### PLEASE WAIT AND CHECK SPAM
 
 * **Status**: `201 Created`
 
