@@ -10,14 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SignUp(c *gin.Context) {
-	var req struct {
-		Name     string `json:"name" binding:"required,min=3,max=20"`
-		Email    string `json:"email" binding:"required,email"`
-		Password string `json:"password" binding:"required,min=8"`
-		Role     int    `json:"role" binding:"required"`
-	}
+type SignUpRequest struct {
+	Name     string `json:"name" binding:"required,min=3,max=20"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=8"`
+	Role     int    `json:"role" binding:"required"`
+}
 
+func SignUp(c *gin.Context) {
+	var req SignUpRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(422, gin.H{"error": "Invalid request", "detail": err.Error()})
 		return

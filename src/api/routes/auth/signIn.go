@@ -7,11 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type SignInRequest struct {
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required"`
+}
+
 func SignIn(c *gin.Context) {
-	var req struct {
-		Email    string `json:"email" binding:"required,email"`
-		Password string `json:"password" binding:"required"`
-	}
+	var req SignInRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(422, gin.H{"error": "Invalid request", "detail": err.Error()})

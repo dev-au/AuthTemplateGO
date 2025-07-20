@@ -20,6 +20,7 @@ func main() {
 		resources.InitCommands(os.Args[1])
 		return
 	}
+
 	gin.SetMode(src.Config.ApplicationMode)
 	ginEngine := api.GinEngine()
 
